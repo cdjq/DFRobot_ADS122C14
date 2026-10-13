@@ -1,0 +1,28 @@
+#######################################
+# Syntax Coloring DFRobot_ADS122C14
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DFRobot_ADS122C14	KEYWORD1
+eChannel_t	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+setInputMode	KEYWORD2
+readSingleData	KEYWORD2
+readAllData	KEYWORD2
+getFirmwareVersion	KEYWORD2
+rawCodeToVoltage	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+SINGLE_ENDED	LITERAL1
+DIFFERENTIAL	LITERAL1
