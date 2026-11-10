@@ -111,7 +111,7 @@ public:
    * @fn getFirmwareVersion
    * @brief Read the firmware version register.
    * @return Input register 0x0003. 0 when the read fails.
-   * @n Each hex digit is one field. 0x0920 means V0.9.2.0. 0x1000 means V1.0.0.0.
+   * @n Each hex digit is one field. 0x0930 means V0.9.3.0. 0x1000 means V1.0.0.0.
    */
   uint16_t getFirmwareVersion(void);
 

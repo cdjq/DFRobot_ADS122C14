@@ -94,7 +94,7 @@ Arduino host library for the Gravity ADS122C14 8-channel 24-bit ADC module, SKU 
   /**
    * @fn getFirmwareVersion
    * @brief Read the firmware version register.
-   * @return Input register 0x0003. 0x0920 means V0.9.2.0. 0 when the read fails.
+   * @return Input register 0x0003. 0x0930 means V0.9.3.0. 0 when the read fails.
    * @n Each hex digit is one field. 0x1000 means V1.0.0.0.
    */
   uint16_t getFirmwareVersion(void);

@@ -94,7 +94,7 @@ Gravity ADS122C14 八通道 24 位 ADC 模块（SKU DFR1322）的 Arduino 主机
   /**
    * @fn getFirmwareVersion
    * @brief 读取固件版本寄存器。
-   * @return 输入寄存器 0x0003。0x0920 表示 V0.9.2.0。读取失败时为 0。
+   * @return 输入寄存器 0x0003。0x0930 表示 V0.9.3.0。读取失败时为 0。
    * @n 每个十六进制位是一段。0x1000 表示 V1.0.0.0。
    */
   uint16_t getFirmwareVersion(void);
