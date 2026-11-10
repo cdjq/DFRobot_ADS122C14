@@ -110,8 +110,8 @@ public:
   /**
    * @fn getFirmwareVersion
    * @brief Read the firmware version register.
-   * @return Input register 0x0005. 0x0100 means V1.0.0. 0 when the read fails.
-   * @n The high byte is the major version and the low byte is the minor version.
+   * @return Input register 0x0003. 0 when the read fails.
+   * @n Each hex digit is one field. 0x0920 means V0.9.2.0. 0x1000 means V1.0.0.0.
    */
   uint16_t getFirmwareVersion(void);
 
@@ -121,14 +121,15 @@ public:
    * @param code Sign-extended 24-bit code from readSingleData or readAllData.
    * @return Volts at the module terminal.
    * @n V = code / 8388607 * 2.5 * (100 + 24.9) / 24.9. The same scale applies to a differential code.
-   * @n USB debug lines use this formula and show 3 decimal places. A code of 3339555 is about 4.992 V.
+   * @n The module ports return the raw code only. A code of 0x0032F623 is about 4.992 V.
    */
   static float rawCodeToVoltage(int32_t code);
 
 private:
-  static const uint16_t REG_PID = 0x0000;
-  static const uint16_t REG_VID = 0x0001;
-  static const uint16_t REG_VERSION = 0x0005;
+  static const uint16_t REG_VID = 0x0000;
+  static const uint16_t REG_PID = 0x0001;
+  static const uint16_t REG_HW_VERSION = 0x0002;
+  static const uint16_t REG_VERSION = 0x0003;
   static const uint16_t REG_INPUT_MODE = 0x0006;
   static const uint16_t REG_CHANNEL_COUNT = 0x0007;
   static const uint16_t REG_AIN0_HIGH = 0x0008;

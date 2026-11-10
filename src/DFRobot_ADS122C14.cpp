@@ -20,9 +20,11 @@ bool DFRobot_ADS122C14::i2cReadReg(uint16_t reg, uint8_t *data, size_t len) {
   if (_pWire == nullptr || data == nullptr) {
     return false;
   }
+  if (reg > 0x7F) {
+    return false;
+  }
   _pWire->beginTransmission(_addr);
-  _pWire->write((uint8_t)(reg >> 8));
-  _pWire->write((uint8_t)(reg & 0xFF));
+  _pWire->write((uint8_t)reg);
   if (_pWire->endTransmission(false) != 0) {
     return false;
   }
@@ -39,9 +41,11 @@ bool DFRobot_ADS122C14::i2cWriteHolding(uint16_t reg, uint16_t value) {
   if (_pWire == nullptr) {
     return false;
   }
+  if (reg > 0x7F) {
+    return false;
+  }
   _pWire->beginTransmission(_addr);
-  _pWire->write((uint8_t)(reg >> 8));
-  _pWire->write((uint8_t)(reg & 0xFF));
+  _pWire->write((uint8_t)(0x80u + reg));
   _pWire->write((uint8_t)(value >> 8));
   _pWire->write((uint8_t)(value & 0xFF));
   return _pWire->endTransmission() == 0;

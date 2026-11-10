@@ -1,6 +1,7 @@
 /*!
  * @file readDifferentialChannels.ino
  * @brief Read four differential pairs as raw codes.
+ * @n Raw codes are printed in hex. Voltage uses the same scale as a single-ended code.
  * @n eDIFF0 is AIN0-AIN1, eDIFF1 is AIN2-AIN3, eDIFF2 is AIN4-AIN5, eDIFF3 is AIN6-AIN7.
  * @n Module GPIO2 must be low (I2C). Default address is 0x3B.
  * @n This sketch uses the board's default Wire pins.
@@ -48,8 +49,8 @@ void loop() {
       Serial.print(i * 2);
       Serial.print(F("-AIN"));
       Serial.print(i * 2 + 1);
-      Serial.print(F(" raw="));
-      Serial.println((int32_t)data[i]);
+      Serial.print(F(" raw=0x"));
+      Serial.println((int32_t)data[i], HEX);
     }
   }
   Serial.println(F("---"));

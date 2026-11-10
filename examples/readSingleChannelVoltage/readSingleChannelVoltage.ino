@@ -1,6 +1,7 @@
 /*!
  * @file readSingleChannelVoltage.ino
  * @brief Read silkscreen AIN0 as a raw code and a terminal voltage.
+ * @n V = code / 8388607 * 2.5 * (100 + 24.9) / 24.9. The raw code is printed in hex.
  * @n Module GPIO2 must be low (I2C). Default address is 0x3B.
  * @n This sketch uses the board's default Wire pins.
  * @n | Board            | SDA | SCL |
@@ -45,8 +46,8 @@ void setup() {
 void loop() {
   const int32_t raw = adc.readSingleData(DFRobot_ADS122C14::eAIN0);
   const float volts = DFRobot_ADS122C14::rawCodeToVoltage(raw);
-  Serial.print(F("AIN0 raw="));
-  Serial.print(raw);
+  Serial.print(F("AIN0 raw=0x"));
+  Serial.print(raw, HEX);
   Serial.print(F(" V="));
   Serial.println(volts, 3);
   delay(500);

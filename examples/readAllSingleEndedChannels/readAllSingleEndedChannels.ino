@@ -1,6 +1,7 @@
 /*!
  * @file readAllSingleEndedChannels.ino
  * @brief Read AIN0 through AIN7 raw codes and terminal voltages.
+ * @n V = code / 8388607 * 2.5 * (100 + 24.9) / 24.9. Raw codes are printed in hex.
  * @n Module GPIO2 must be low (I2C). Default address is 0x3B.
  * @n This sketch uses the board's default Wire pins.
  * @n | Board            | SDA | SCL |
@@ -45,8 +46,8 @@ void loop() {
     for (uint8_t i = 0; i < 8; ++i) {
       Serial.print(F("AIN"));
       Serial.print(i);
-      Serial.print(F(" raw="));
-      Serial.print((int32_t)data[i]);
+      Serial.print(F(" raw=0x"));
+      Serial.print((int32_t)data[i], HEX);
       Serial.print(F(" V="));
       Serial.println(DFRobot_ADS122C14::rawCodeToVoltage((int32_t)data[i]), 3);
     }
