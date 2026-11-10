@@ -15,7 +15,7 @@
  */
 #include <DFRobot_ADS122C14.h>
 
-// 使用 I2C。注释掉下一行则使用 UART。
+// Use I2C. Comment out the next line to use UART.
 #define I2C_COMMUNICATION
 
 #ifdef I2C_COMMUNICATION
