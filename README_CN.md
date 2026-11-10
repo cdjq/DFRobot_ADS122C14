@@ -35,7 +35,7 @@ Gravity ADS122C14 八通道 24 位 ADC 模块（SKU DFR1322）的 Arduino 主机
    * @fn DFRobot_ADS122C14
    * @brief I2C 构造。
    * @param i2cAddr 地址拨码决定的 7 位地址 0x3B-0x3E，默认 0x3B。
-   * @param pWire TwoWire 实例。调用 begin() 之前先 Wire.begin()。
+   * @param pWire TwoWire 实例。begin() 里会调用 Wire.begin()。
    * @n 模块 GPIO2 为低时使用这个构造。
    */
   DFRobot_ADS122C14(uint8_t i2cAddr = I2C_ADDRESS_DEFAULT, TwoWire *pWire = &Wire);
@@ -44,10 +44,11 @@ Gravity ADS122C14 八通道 24 位 ADC 模块（SKU DFR1322）的 Arduino 主机
    * @fn DFRobot_ADS122C14
    * @brief UART RTU 构造。
    * @param deviceAddr Modbus 从站地址，默认 0x32。
-   * @param s 接到模块 Gravity 口的 Stream。UNO 上是 Serial（D0/D1）。
-   * @n 模块 GPIO2 为高时使用这个构造。模块保持 115200 8N1。
+   * @param s 接到模块的硬件串口。
+   * @param baud 模块波特率。begin() 按这个波特率、8N1 打开。出厂是 115200。
+   * @n ESP32 使用 RX 16、TX 17。UNO 和 ESP8266 改为传入 SoftwareSerial。
    */
-  DFRobot_ADS122C14(uint8_t deviceAddr, Stream *s);
+  DFRobot_ADS122C14(uint8_t deviceAddr, HardwareSerial *s, uint32_t baud, int8_t rxPin = -1, int8_t txPin = -1);
 
   /**
    * @fn begin
@@ -55,7 +56,7 @@ Gravity ADS122C14 八通道 24 位 ADC 模块（SKU DFR1322）的 Arduino 主机
    * @return 成功返回 0，失败返回 -1。
    * @n GPIO2 为低时用 I2C 构造，为高时用 UART 构造。
    * @n I2C 地址由拨码决定，范围 0x3B-0x3E。UART 为 115200 8N1，从站 0x32。
-   * @n I2C 对象要先 Wire.begin() 再 begin()。返回非 0 表示总线、地址或模式拨码不一致。
+   * @n begin() 会打开 I2C 或 UART。返回非 0 表示总线、地址或模式拨码不一致。
    */
   int8_t begin(void);
 

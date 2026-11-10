@@ -13,8 +13,13 @@
 DFRobot_ADS122C14::DFRobot_ADS122C14(uint8_t i2cAddr, TwoWire *pWire)
   : _pWire(pWire), _addr(i2cAddr), _useI2c(true) {}
 
-DFRobot_ADS122C14::DFRobot_ADS122C14(uint8_t deviceAddr, Stream *s)
-  : DFRobot_RTU(s), _pWire(nullptr), _addr(deviceAddr), _useI2c(false) {}
+DFRobot_ADS122C14::DFRobot_ADS122C14(uint8_t deviceAddr, HardwareSerial *s, uint32_t baud, int8_t rxPin, int8_t txPin)
+  : DFRobot_RTU(s), _pWire(nullptr), _addr(deviceAddr), _useI2c(false), _hard(s), _baud(baud), _rx(rxPin), _tx(txPin) {}
+
+#if defined(ARDUINO_AVR_UNO) || defined(ESP8266)
+DFRobot_ADS122C14::DFRobot_ADS122C14(uint8_t deviceAddr, SoftwareSerial *s, uint32_t baud)
+  : DFRobot_RTU(s), _pWire(nullptr), _addr(deviceAddr), _useI2c(false), _soft(s), _baud(baud) {}
+#endif
 
 bool DFRobot_ADS122C14::i2cReadReg(uint16_t reg, uint8_t *data, size_t len) {
   if (_pWire == nullptr || data == nullptr) {
@@ -98,6 +103,26 @@ int32_t DFRobot_ADS122C14::combineAdcWords(uint16_t hi, uint16_t lo) {
 }
 
 int8_t DFRobot_ADS122C14::begin(void) {
+  if (_useI2c) {
+    if (_pWire != nullptr) {
+      _pWire->begin();
+    }
+  } else {
+#if defined(ARDUINO_AVR_UNO) || defined(ESP8266)
+    if (_soft != nullptr) {
+      _soft->begin(_baud);
+    } else
+#endif
+    if (_hard != nullptr) {
+#if defined(ESP32)
+      const int8_t rx = _rx >= 0 ? _rx : 16;
+      const int8_t tx = _tx >= 0 ? _tx : 17;
+      _hard->begin(_baud, SERIAL_8N1, rx, tx);
+#else
+      _hard->begin(_baud);
+#endif
+    }
+  }
   delay(500);
   setTimeoutTimeMs(1000);
   uint16_t pid = 0;

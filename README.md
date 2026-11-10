@@ -35,7 +35,7 @@ Arduino host library for the Gravity ADS122C14 8-channel 24-bit ADC module, SKU 
    * @fn DFRobot_ADS122C14
    * @brief I2C constructor.
    * @param i2cAddr 7-bit address 0x3B-0x3E from the ADDR dial. Default 0x3B.
-   * @param pWire TwoWire instance. Call Wire.begin() before begin().
+   * @param pWire TwoWire instance. begin() calls Wire.begin().
    * @n Use this constructor when module GPIO2 is low.
    */
   DFRobot_ADS122C14(uint8_t i2cAddr = I2C_ADDRESS_DEFAULT, TwoWire *pWire = &Wire);
@@ -44,10 +44,11 @@ Arduino host library for the Gravity ADS122C14 8-channel 24-bit ADC module, SKU 
    * @fn DFRobot_ADS122C14
    * @brief UART RTU constructor.
    * @param deviceAddr Modbus unit ID. Default 0x32.
-   * @param s Stream connected to the module Gravity port. On UNO this is Serial (D0/D1).
-   * @n Use this constructor when module GPIO2 is high. The module stays at 115200 8N1.
+   * @param s Hardware serial connected to the module.
+   * @param baud Module baud rate. begin() opens the port at this baud, 8N1. Factory setting is 115200.
+   * @n ESP32 uses RX 16 and TX 17. UNO and ESP8266 pass a SoftwareSerial instead.
    */
-  DFRobot_ADS122C14(uint8_t deviceAddr, Stream *s);
+  DFRobot_ADS122C14(uint8_t deviceAddr, HardwareSerial *s, uint32_t baud, int8_t rxPin = -1, int8_t txPin = -1);
 
   /**
    * @fn begin
@@ -55,7 +56,7 @@ Arduino host library for the Gravity ADS122C14 8-channel 24-bit ADC module, SKU 
    * @return 0 on success, -1 on failure.
    * @n Use the I2C constructor when module GPIO2 is low, and the UART constructor when GPIO2 is high.
    * @n I2C address is 0x3B-0x3E from the ADDR dial. UART is 115200 8N1, unit ID 0x32.
-   * @n Call Wire.begin() before begin() on the I2C object. A non-zero return means the bus, address, or mode strap does not match.
+   * @n begin() opens I2C or UART. A non-zero return means the bus, address, or mode strap does not match.
    */
   int8_t begin(void);
 
